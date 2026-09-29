@@ -1,0 +1,7 @@
+{
+  "id": "waterfall",
+  "name": "Waterfall",
+  "version": "0.1.0",
+  "entry": "main.lua",
+  "icon": "icon.wrgb"
+}

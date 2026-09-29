@@ -1,0 +1,7 @@
+{
+  "id": "mesh_chat",
+  "name": "Mesh Chat",
+  "version": "1.2.0",
+  "entry": "main.lua",
+  "icon": "icon.wrgb"
+}

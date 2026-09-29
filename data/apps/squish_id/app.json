@@ -1,0 +1,7 @@
+{
+  "id": "squish_id",
+  "name": "Squish ID",
+  "version": "0.2.0",
+  "entry": "main.lua",
+  "icon": "icon.wrgb"
+}

@@ -1,0 +1,7 @@
+{
+  "id": "pcm_lab",
+  "name": "PCM Lab",
+  "version": "0.1.0",
+  "entry": "main.lua",
+  "icon": "icon.wrgb"
+}

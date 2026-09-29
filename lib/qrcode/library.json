@@ -1,0 +1,8 @@
+{
+  "name": "QRCode",
+  "version": "0.0.1",
+  "description": "Vendored ricmoo/QRCode (Nayuki-derived) for SoftAP Install QR",
+  "build": {
+    "srcFilter": ["+<*>"]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "wasm3",
+  "version": "0.5.0",
+  "description": "Wasm3 WebAssembly interpreter (MIT) \u2014 core only, no WASI",
+  "keywords": "wasm,webassembly,interpreter",
+  "homepage": "https://github.com/wasm3/wasm3",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "build": {
+    "srcDir": ".",
+    "includeDir": ".",
+    "srcFilter": [
+      "+<*>",
+      "-<m3_api_wasi*>",
+      "-<m3_api_uvwasi*>",
+      "-<m3_api_meta_wasi*>",
+      "-<m3_api_tracer*>",
+      "-<extensions/*>",
+      "-<extra/*>"
+    ],
+    "flags": [
+      "-Os",
+      "-Dd_m3HasPosixHost=0",
+      "-Dd_m3HasWin32Host=0",
+      "-Dd_m3MaxLinearMemoryPages=4",
+      "-Dd_m3MaxFunctionStackHeight=256",
+      "-Dd_m3CodePageAlignSize=1024",
+      "-Dd_m3VerboseErrorMessages=0",
+      "-Wno-unused-function",
+      "-Wno-unused-variable",
+      "-Wno-unused-parameter",
+      "-Wno-missing-field-initializers",
+      "-Wno-error=format"
+    ]
+  }
+}

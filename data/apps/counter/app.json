@@ -1,0 +1,7 @@
+{
+  "id": "counter",
+  "name": "Counter",
+  "version": "0.1.0",
+  "entry": "main.lua",
+  "icon": "icon.wrgb"
+}

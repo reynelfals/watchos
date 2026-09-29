@@ -1,0 +1,20 @@
+{
+  "name": "lua",
+  "version": "5.4.7",
+  "description": "Official Lua 5.4.7 core (no standalone lua/luac; no io/os/package/debug)",
+  "keywords": "lua,scripting",
+  "homepage": "https://www.lua.org/",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "build": {
+    "srcFilter": [
+      "+<*>"
+    ],
+    "flags": [
+      "-DLUA_COMPAT_5_3"
+    ],
+    "srcDir": ".",
+    "includeDir": "."
+  }
+}
