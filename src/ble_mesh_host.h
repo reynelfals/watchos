@@ -11,6 +11,19 @@ extern "C" {
 /** Init NimBLE central stack (idempotent). Safe with WiFi off. */
 bool bleMeshInit(void);
 
+/**
+ * Tear down NimBLE so the ESP32 radio controller can run SoftAP/STA.
+ * Disconnects, stops scan, clears ready flags, NimBLEDevice::deinit(true).
+ * Call before WiFi.mode(WIFI_AP|WIFI_STA). Idempotent.
+ */
+bool bleMeshSuspendForWifi(void);
+
+/**
+ * Re-init NimBLE after Wi‑Fi OTA radio is powered off.
+ * No-op if already ready. Mesh Chat works again after this.
+ */
+bool bleMeshResumeAfterWifi(void);
+
 /** True once NimBLE init succeeded. */
 bool bleMeshReady(void);
 

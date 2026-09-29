@@ -22,6 +22,7 @@
 #include "zip_install.h"
 #include "sd_host.h"
 #include "apps_host.h"
+#include "ble_mesh_host.h"
 
 static WebServer* gServer = nullptr;
 static Preferences gPrefs;
@@ -875,6 +876,8 @@ static void radioOffHard() {
   WiFi.softAPdisconnect(true);
   WiFi.disconnect(true, true);
   WiFi.mode(WIFI_OFF);
+  // Restore Mesh Chat stack after Wi‑Fi releases the controller.
+  bleMeshResumeAfterWifi();
 }
 
 bool wifiOtaStaConfigured(void) {
@@ -903,13 +906,26 @@ bool wifiOtaStartSoftAp(void) {
   closeUploadFile();
   gMode = WIFI_OTA_MODE_SOFTAP;
 
+  // NimBLE owns the controller at boot; SoftAP fails unless we tear it down.
+  bleMeshSuspendForWifi();
+
   WiFi.persistent(false);
   WiFi.mode(WIFI_AP);
+  delay(50);
   bool ok = WiFi.softAP(WATCHOS_WIFI_OTA_SSID, gPassword);
   if (!ok) {
-    Serial.println("wifi_ota: softAP failed");
+    Serial.println("wifi_ota: softAP failed — retry after delay");
+    delay(400);
+    WiFi.mode(WIFI_OFF);
+    delay(100);
+    WiFi.mode(WIFI_AP);
+    delay(50);
+    ok = WiFi.softAP(WATCHOS_WIFI_OTA_SSID, gPassword);
+  }
+  if (!ok) {
+    Serial.println("wifi_ota: softAP failed after BLE suspend + retry");
     radioOffHard();
-    setStatus("softAP failed");
+    setStatus("softAP failed (radio)");
     gState = WIFI_OTA_OFF;
     gMode = WIFI_OTA_MODE_NONE;
     return false;
@@ -950,6 +966,9 @@ bool wifiOtaStartSta(void) {
   closeUploadFile();
   gMode = WIFI_OTA_MODE_STA;
   snprintf(gIp, sizeof(gIp), "0.0.0.0");
+
+  // Same controller conflict as SoftAP — release NimBLE first.
+  bleMeshSuspendForWifi();
 
   WiFi.persistent(false);
   WiFi.mode(WIFI_STA);

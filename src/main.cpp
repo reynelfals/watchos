@@ -1865,7 +1865,7 @@ static void onOtaStartSoftAp(lv_event_t* /*e*/) {
   if (!wifiOtaStartSoftAp()) {
     otaQrHide();
     if (lblOtaStatus) {
-      lv_label_set_text(lblOtaStatus, "SoftAP start failed");
+      lv_label_set_text(lblOtaStatus, wifiOtaStatusLine());
       lv_obj_set_style_text_color(lblOtaStatus, COL_ERR, 0);
     }
   } else {

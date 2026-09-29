@@ -509,6 +509,41 @@ bool bleMeshInit(void) {
   return true;
 }
 
+bool bleMeshSuspendForWifi(void) {
+  // Release the BLE controller so SoftAP/STA can claim the radio.
+  if (!gReady && !NimBLEDevice::isInitialized()) {
+    Serial.println("ble_mesh: suspend skipped (stack down)");
+    return true;
+  }
+  Serial.println("ble_mesh: suspending NimBLE for Wi-Fi");
+  if (gReady) {
+    NimBLEScan* scan = NimBLEDevice::getScan();
+    if (scan) scan->stop();
+    clearClientChars();
+    if (gClient && gClient->isConnected()) {
+      gClient->disconnect();
+      delay(120);
+    }
+  }
+  // clearAll=true deletes client/scan objects; drop our dangling ptrs first.
+  gClient = nullptr;
+  clearClientChars();
+  gReady = false;
+  gSt = St::Idle;
+  gNeedDrain = false;
+  gHandshakeDone = false;
+  bool ok = NimBLEDevice::deinit(true);
+  delay(250);  // let controller fully release before WiFi.mode
+  Serial.printf("ble_mesh: deinit %s\n", ok ? "ok" : "fail");
+  return ok;
+}
+
+bool bleMeshResumeAfterWifi(void) {
+  if (gReady) return true;
+  Serial.println("ble_mesh: resume after Wi-Fi");
+  return bleMeshInit();
+}
+
 bool bleMeshReady(void) { return gReady; }
 
 void bleMeshTick(void) {
