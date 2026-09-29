@@ -418,6 +418,8 @@ watchos/
 
 ## License / attribution
 
+This project is licensed under the **MIT License** — see [LICENSE](LICENSE).
+
 Board bring-up patterns align with Waveshare’s public ESP32-S3-Touch-AMOLED-2.06
 examples and the working AMOLED 2.06 PlatformIO setup used elsewhere in this
 workspace. Squish ID reuses the catalog CSV + prefix-search approach as a
